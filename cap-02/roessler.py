@@ -3,44 +3,47 @@ import numpy as np
 from scipy.integrate import odeint
 import matplotlib.pyplot as fig
 from mpl_toolkits import mplot3d
-
 # %%
 
-# Condicao Inicial de x
+# condicao inicial de X
 X0 = 0
-# Condicao Inicial de y
+
+# condicao inicial de Y
 Y0 = 1
-# Condicao Inicial de z
+
+# condicao incial de Z
 Z0 = 0
 
 # Parametros do sistema
-a = 7.85
-b = 24.3
-c = 8/3
+a = 0.1
+b = 0.1
+c = 18
 
 # grade de tempos t
-t = np.linspace(0, 60, 5000)
+t = np.linspace(0, 160, 5000)
 
-# Sistema de Eq. Diferenciais de Lorentz
+# sistema de eq. diferenciais de Rossler
 
 
 def deriv(s, t, a, b, c):
     X, Y, Z = s
-    dXdt = a*(Y - X)
-    dYdt = -X*Z + b*X - Y
-    dZdt = X*Y - c*Z
+    dXdt = -Y - Z
+    dYdt = X + a*Y
+    dZdt = b+(X-c)*Z
     return dXdt, dYdt, dZdt
 
 
-# Condicoes inciais no Vetor
+# condicoes iniciais no Vetor
 s0 = X0, Y0, Z0
-# Integracao do sistema #########################
+
+# integracao do sistema
 res = odeint(deriv, s0, t, args=(a, b, c))
 X, Y, Z = res.T
 
+
 # %%
-# Plot dados separados X, Y, Z
-# plt.figure(facecolor='w')
+
+# plot dados separados X,Y,Z
 ax = fig.subplot(311, facecolor='#dddddd', axisbelow=True)
 ax.plot(t, X, 'k')
 ax.set_xlabel('Tempo')
